@@ -59,12 +59,16 @@ public class Board {
 	}
 	public boolean isSolvable(){
 		//int thisParity = (rowSize - 1) % 2;	//parity is inversions + row of zed all % 2
-		 int lo = 0;
+		int lo = 0;
 		int hi = N-1;	//our high is with respect to the new array we create without zero, thus n-1
 		temp = new int[hi];
 		
 		for(int i = 0; i < temp.length; i++){  //get rid of zed for inversions
-			if(board[i] != 0) temp[i] = board[i];
+			int j = i;
+			if(board[i] == 0){
+				j++;
+			}
+			temp[i] = board[j];
 		}
 		inversions= mergeSort(temp,lo,hi);
 		System.out.println("inversions = "+inversions + "n=" +colSize);
@@ -147,7 +151,6 @@ public class Board {
 			else
 				sb.append(String.format("%3d",board[i]));
 		}
-		
 		return sb.toString();
 	}
 	
@@ -158,6 +161,7 @@ public class Board {
 		int mid = lo + (hi - lo)/2;
 		return mergeSort(a,lo, mid) + mergeSort(a,mid,hi) + merge(a,lo,mid,hi); 
 	}
+	///ERROR IS HERE, GIVES 1 OFF INVERSIONS
 	
 	private int merge(int[] a, int lo, int mid, int hi){
 		int count = 0;
