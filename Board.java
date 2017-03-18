@@ -64,11 +64,11 @@ public class Board {
 		temp = new int[hi];
 		
 		for(int i = 0; i < temp.length; i++){  //get rid of zed for inversions
-			int j = i;
-			if(board[i] == 0){
+			int j = 0;
+			if(board[i] != 0){
+				temp[j] = board[i];
 				j++;
 			}
-			temp[i] = board[j];
 		}
 		inversions= mergeSort(temp,lo,hi);
 		System.out.println("inversions = "+inversions + "n=" +colSize);
