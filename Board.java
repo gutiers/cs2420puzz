@@ -62,9 +62,9 @@ public class Board {
 		int lo = 0;
 		int hi = N-1;	//our high is with respect to the new array we create without zero, thus n-1
 		temp = new int[hi];
-		
-		for(int i = 0; i < temp.length; i++){  //get rid of zed for inversions
-			int j = 0;
+		int j = 0;
+		//changed to <= because the og array needs to scan 8 places 
+		for(int i = 0; i <= temp.length; i++){  //get rid of zed for inversions
 			if(board[i] != 0){
 				temp[j] = board[i];
 				j++;
@@ -74,11 +74,11 @@ public class Board {
 		System.out.println("inversions = "+inversions + "n=" +colSize);
 		if(colSize%2 != 0){
 			if(inversions%2 == 0) return true;
-			if(inversions%2 != 0) return false;
+			else if(inversions%2 != 0) return false;
 		}
-		if(colSize%2 == 0){
+		else if(colSize%2 == 0){
 			if((zedRow + inversions)%2 == 0) return false;
-			if((zedRow + inversions)%2 != 0) return true;
+			else if((zedRow + inversions)%2 != 0) return true;
 		}
 		return false;
 	}
@@ -157,21 +157,22 @@ public class Board {
 	//************************PRIVATE METHODS*************************************
 	
 	private int mergeSort(int[] a, int lo, int hi){
-		if (lo == hi -1) return 0; //base case
-		int mid = lo + (hi - lo)/2;
+		if (lo == (hi-1)) return a[lo]; //base case
+		int mid = (lo + hi)/2;
 		return mergeSort(a,lo, mid) + mergeSort(a,mid,hi) + merge(a,lo,mid,hi); 
 	}
 	///ERROR IS HERE, GIVES 1 OFF INVERSIONS
 	
 	private int merge(int[] a, int lo, int mid, int hi){
 		int count = 0;
+		int[] cTemp = new int[a.length];
 		
 		for(int i = lo, lp = lo, hp = mid; i <  hi; i++){
-			if(hp >= hi || lp < mid && a[lp] <= a[hp]) lp++;
+			if(hp >= hi || lp < mid && a[lp] <= a[hp]) cTemp[i]=a[lp++];
 			else{
 				if (a[lp] > a[hp]){
 					count += (mid-lp);
-					hp++;
+					cTemp[i] = a[hp++];
 				}
 			}
 		}return count;
