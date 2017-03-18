@@ -58,9 +58,8 @@ public class Board {
 		return manhattan  == 0;
 	}
 	public boolean isSolvable(){
-		
-		int thisParity = (rowSize - 1) % 2;	//parity is inversions + row of zed all % 2
-		int lo = 0;
+		//int thisParity = (rowSize - 1) % 2;	//parity is inversions + row of zed all % 2
+		 int lo = 0;
 		int hi = N-1;	//our high is with respect to the new array we create without zero, thus n-1
 		temp = new int[hi];
 		
@@ -68,8 +67,16 @@ public class Board {
 			if(board[i] != 0) temp[i] = board[i];
 		}
 		inversions= mergeSort(temp,lo,hi);
-		System.out.println("inversions = "+inversions);
-		return (zedRow + inversions)%2 == thisParity;
+		System.out.println("inversions = "+inversions + "n=" +colSize);
+		if(colSize%2 != 0){
+			if(inversions%2 == 0) return true;
+			if(inversions%2 != 0) return false;
+		}
+		if(colSize%2 == 0){
+			if((zedRow + inversions)%2 == 0) return false;
+			if((zedRow + inversions)%2 != 0) return true;
+		}
+		return false;
 	}
 	
 	public boolean equals(Object board){
@@ -125,38 +132,6 @@ public class Board {
 			if(zedIndex < N-colSize) boardList.add(nborDown());
 		}
 		return boardList;
-		/**
-		return new Iterable<Board>(){
-
-			@Override
-			public Iterator<Board> iterator() {
-				// TODO Auto-generated method stub
-				return new Iterator<Board>(){
-					private int position;
-					
-
-					@Override
-					public boolean hasNext() {
-						return false;
-					}
-
-					@Override
-					public Board next() {
-						// TODO Auto-generated method stub
-						return null;
-					}
-
-					@Override
-					public void remove() {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				};
-			}
-			
-		};
-		**/
 		
 	}
 	public String toString(){

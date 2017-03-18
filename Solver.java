@@ -10,7 +10,7 @@ public class Solver {
 	public Solver(Board initial){
 		SearchNode sn = new SearchNode(initial,moves,null);
 		SearchNode husk;
-		MinPQ<SearchNode> pq = new MinPQ(sn.byManhattan());
+		MinPQ<SearchNode> pq = new MinPQ(sn.byHamming());
 		pq.insert(sn);
 		while(!pq.isEmpty()){
 			sn = pq.delMin();
@@ -41,7 +41,7 @@ public class Solver {
 			myList.add(solution.board);
 			solution = solution.previous;
 		}
-		for(Board el:myList) System.out.println(el);
+		//for(Board el:myList) System.out.println(el);
 		return myList;
 	}
 	
@@ -100,7 +100,7 @@ public class Solver {
 	    if (initial.isSolvable()) {
 	        Solver solver = new Solver(initial);
 	        StdOut.println("Minimum number of moves = " + solver.moves());
-	        //System.out.println(solver.solution());
+	        System.out.println(solver.solution());
 	        for (Board board : solver.solution())
 	            StdOut.println(board);
 	    }
