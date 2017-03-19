@@ -70,6 +70,7 @@ public class Board {
 				j++;
 			}
 		}
+		//System.out.println("templen = " + temp.length + "hi=" +hi);
 		inversions= mergeSort(temp,lo,hi);
 		System.out.println("inversions = "+inversions + "n=" +colSize);
 		if(colSize%2 != 0){
@@ -157,8 +158,9 @@ public class Board {
 	//************************PRIVATE METHODS*************************************
 	
 	private int mergeSort(int[] a, int lo, int hi){
-		if (lo == (hi-1)) return a[lo]; //base case
+		if (lo == (hi-1)) return 0; //base case
 		int mid = (lo + hi)/2;
+		System.out.println("lo " + lo + " mid " + mid + " hi " + hi);
 		return mergeSort(a,lo, mid) + mergeSort(a,mid,hi) + merge(a,lo,mid,hi); 
 	}
 	///ERROR IS HERE, GIVES 1 OFF INVERSIONS
@@ -168,14 +170,16 @@ public class Board {
 		int[] cTemp = new int[a.length];
 		
 		for(int i = lo, lp = lo, hp = mid; i <  hi; i++){
-			if(hp >= hi || lp < mid && a[lp] <= a[hp]) cTemp[i]=a[lp++];
-			else{
-				if (a[lp] > a[hp]){
-					count += (mid-lp);
-					cTemp[i] = a[hp++];
-				}
+			if(hp >= hi || lp < mid && a[lp] <= a[hp]){
+				cTemp[i]=a[lp++];
 			}
-		}return count;
+			else{
+				count += (mid-lp);
+				cTemp[i] = a[hp++];
+			}
+		}
+		System.arraycopy(temp,lo,a,lo,hi-lo);
+		return count;
 	}
 	
 	private int[][] toTwoD(int[] arr){
