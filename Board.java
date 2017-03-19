@@ -70,7 +70,7 @@ public class Board {
 				j++;
 			}
 		}
-		//System.out.println("templen = " + temp.length + "hi=" +hi);
+		//System.out.println("templen = " + temp.length + "hi=" +hi +"lo ");
 		inversions= mergeSort(temp,lo,hi);
 		System.out.println("inversions = "+inversions + "n=" +colSize);
 		if(colSize%2 != 0){
