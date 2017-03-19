@@ -157,29 +157,30 @@ public class Board {
 	
 	//************************PRIVATE METHODS*************************************
 	
-	private int mergeSort(int[] a, int lo, int hi){
-		if (lo == (hi-1)) return 0; //base case
-		int mid = (lo + hi)/2;
-		System.out.println("lo " + lo + " mid " + mid + " hi " + hi);
-		return mergeSort(a,lo, mid) + mergeSort(a,mid,hi) + merge(a,lo,mid,hi); 
-	}
 	///ERROR IS HERE, GIVES 1 OFF INVERSIONS
 	
-	private int merge(int[] a, int lo, int mid, int hi){
-		int count = 0;
-		int[] cTemp = new int[a.length];
-		
-		for(int i = lo, lp = lo, hp = mid; i <  hi; i++){
-			if(hp >= hi || lp < mid && a[lp] <= a[hp]){
-				cTemp[i]=a[lp++];
-			}
-			else{
-				count += (mid-lp);
-				cTemp[i] = a[hp++];
+	private int mergeSort(int[] a, int lo, int hi){
+		if (lo == high) return 0;
+		int m1 = Math.floor((lo+hi)/2.0);
+		int m2 = Math.ceil((lo+hi)/2.0);
+		return mergeSort(a,lo,m1) + mergeSort(a,m2,hi) + merge(a,lo,hi);
+	}
+	
+	private int merge(int[] a, int lo, int hi){
+		int inversions = 0;
+		int[] temp = new int [a.length];
+		int m1 = Math.floor((lo+hi)/2.0);
+		int m2 = Math.ceil((lo+hi)/2.0);
+		for(int i = lo, li = lo, ri = m2; i <= hi; i++){
+			if (ri > hi || li <= m1 && a[li] <= a[ri]) {
+				temp[i] = a[li++];
+			} else {
+				inversions += m1 - li +1;
+				temp[i] = a[ri++];
 			}
 		}
-		System.arraycopy(temp,lo,a,lo,hi-lo);
-		return count;
+		System.arraycopy(temp,lo,a,lo,a.length);
+		return inversions;
 	}
 	
 	private int[][] toTwoD(int[] arr){
